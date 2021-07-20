@@ -14,7 +14,7 @@ services:
    - ./zbx_env/var/lib/zabbix/ssh_keys:/var/lib/zabbix/ssh_keys:ro
    - ./zbx_env/var/lib/zabbix/mibs:/var/lib/zabbix/mibs:ro
    - ./zbx_env/var/lib/zabbix/snmptraps:/var/lib/zabbix/snmptraps:ro
-  secrets:
+  senviroment:
    POSTGRES_USER: zabbix
    POSTGRES_PASSWORD: zabbix
   depends_on:
@@ -52,7 +52,7 @@ services:
   env_file:
    - .env_db_pgsql
    - .env_web
-  secrets:
+  enviroment:
    POSTGRES_USER: zabbix
    POSTGRES_PASSWORD: zabbix
   depends_on:
@@ -189,7 +189,7 @@ services:
    - ./.ZBX_DB_KEY_FILE:/run/secrets/server-key.pem:ro
   env_file:
    - .env_db_pgsql
-  secrets:
+  enviroment:
    POSTGRES_USER: zabbix
    POSTGRES_PASSWORD: zabbix
   stop_grace_period: 1m

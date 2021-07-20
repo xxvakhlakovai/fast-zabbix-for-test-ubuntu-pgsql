@@ -14,6 +14,14 @@ services:
    - postgres-server
   depends_on:
    - postgres-server
+  networks:
+   zbx_net_backend:
+     aliases:
+      - zabbix-server
+      - zabbix-server-pgsql
+      - zabbix-server-ubuntu-pgsql
+      - zabbix-server-pgsql-ubuntu
+   zbx_net_frontend:
    
  postgres-server:
   image: postgres:13-alpine
@@ -28,9 +36,15 @@ services:
   volumes:
    - ./src/pgsql:/var/lib/pgsql
   command: ['pgsql', '--character-set-server=utf8', '--collation-server=utf8_bin']
+  networks:
+   zbx_net_backend:
+    aliases:
+     - postgres-server
+     - pgsql-server
+     - pgsql-database
   
  zabbix-web:
-    image: zabbix/zabbix-web-service:ubuntu-5.4-latest
+    image: zabbix/zabbix-web-nginx-pgsql:ubuntu-5.4-latest
     container_name: zabbix-web
     environment:
       PGSQL_ROOT_PASSWORD: root_pwd
@@ -46,3 +60,27 @@ services:
       - zabbix-server
     depends_on:
       - zabbix-server
+    networks:
+     zbx_net_backend:
+     aliases:
+      - zabbix-web-service
+      - zabbix-web-service-ubuntu
+
+networks:
+  zbx_net_frontend:
+    driver: bridge
+    driver_opts:
+      com.docker.network.enable_ipv6: "false"
+    ipam:
+      driver: default
+      config:
+      - subnet: 172.16.238.0/24
+  zbx_net_backend:
+    driver: bridge
+    driver_opts:
+      com.docker.network.enable_ipv6: "false"
+    internal: true
+    ipam:
+      driver: default
+      config:
+      - subnet: 172.16.239.0/24

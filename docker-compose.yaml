@@ -1,43 +1,44 @@
-version: '3.5'
+version: '3'
+
 services:
- zabbix-server:
-  image: zabbix/zabbix-server-pgsql:ubuntu-5.4-latest
-  environment:
-   DB_SERVER_HOST: pgsql-server
-   PGSQL_DATABASE: zabbix
-   PGSQL_USER: zabbix
-   PGSQL_PASSWORD: zabbix
-  ports:
-   - '10051:10051'
-  restart: always
-  links:
-   - postgres-server
-  depends_on:
-   - postgres-server
-   
- postgres-server:
-  image: postgres:13-alpine
-  environment:
-   PGSQL_ROOT_PASSWORD: root_pwd
-   PGSQL_DATABASE: zabbix
-   PGSQL_USER: zabbix
-   PGSQL_PASSWORD: zabbix
-  ports:
-   - '1433:1433'
-  restart: always
-  volumes:
-   - ./src/pgsql:/var/lib/pgsql
-  command: ['pgsql', '--character-set-server=utf8', '--collation-server=utf8_bin']
-  
- zabbix-web:
-    image: zabbix/zabbix-web-nginx-pgsql:ubuntu-5.4-latest
+  mysql-server:
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: root_pwd
+      MYSQL_DATABASE: zabbix
+      MYSQL_USER: zabbix
+      MYSQL_PASSWORD: zabbix
+    ports:
+      - '3306:3306'
+    restart: always
+    volumes:
+      - ./src/mysql:/var/lib/mysql
+    command: ['mysqld', '--character-set-server=utf8', '--collation-server=utf8_bin']
+
+  zabbix-server:
+    image: zabbix/zabbix-server-mysql:alpine-latest
+    environment:
+      DB_SERVER_HOST: mysql-server
+      MYSQL_DATABASE: zabbix
+      MYSQL_USER: zabbix
+      MYSQL_PASSWORD: zabbix
+    ports:
+       - '10051:10051'
+    restart: always
+    links: 
+      - mysql-server
+    depends_on:
+      - mysql-server
+
+  zabbix-web:
+    image: zabbix/zabbix-web-nginx-mysql:alpine-latest
     container_name: zabbix-web
     environment:
-      PGSQL_ROOT_PASSWORD: root_pwd
-      PGSQL_USER: zabbix
-      PGSQL_PASSWORD: zabbix
+      MYSQL_ROOT_PASSWORD: root_pwd
+      MYSQL_USER: zabbix
+      MYSQL_PASSWORD: zabbix
       ZBX_SERVER_HOST: zabbix-server
-      PHP_TZ: Europe/Moscow
+      PHP_TZ: Europe/Kiev
     ports:
       - '80:80'
       - '443:443'

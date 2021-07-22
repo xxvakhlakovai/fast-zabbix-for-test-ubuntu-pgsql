@@ -87,36 +87,6 @@ services:
    com.zabbix.dbtype: "pgsql"
    com.zabbix.os: "ubuntu"
 
- zabbix-agent2:
-  image: zabbix/zabbix-agent2:ubuntu-5.4-latest
-  profiles:
-   - full
-   - all
-  ports:
-   - "10050:10050"
-  volumes:
-   - /etc/localtime:/etc/localtime:ro
-   - ./zbx_env/etc/zabbix/zabbix_agentd.d:/etc/zabbix/zabbix_agentd.d:ro
-   - ./zbx_env/var/lib/zabbix/modules:/var/lib/zabbix/modules:ro
-   - ./zbx_env/var/lib/zabbix/enc:/var/lib/zabbix/enc:ro
-   - ./zbx_env/var/lib/zabbix/ssh_keys:/var/lib/zabbix/ssh_keys:ro
-  env_file:
-   - .env_agent2
-  privileged: true
-  pid: "host"
-  networks:
-   zbx_net_backend:
-    aliases:
-     - zabbix-agent2
-     - zabbix-agent2-passive
-     - zabbix-agent2-ubuntu
-  stop_grace_period: 5s
-  labels:
-   com.zabbix.description: "Zabbix agent"
-   com.zabbix.company: "Zabbix LLC"
-   com.zabbix.component: "zabbix-agentd"
-   com.zabbix.os: "ubuntu"
-
  zabbix-java-gateway:
   image: zabbix/zabbix-java-gateway:ubuntu-5.4-latest
   profiles:

@@ -1,5 +1,3 @@
 # fast-zabbix-for-work
-fast-zabbix-for work
-logo
-CI CI
+fast-zabbix-for work![68747470733a2f2f6173736574732e7a61626269782e636f6d2f696d672f6c6f676f2f7a61626269785f6c6f676f5f353030783133312e706e67](https://user-images.githubusercontent.com/75326855/126627735-cc5d1dae-59be-481d-9dad-978c51047934.png)
 

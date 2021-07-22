@@ -5,10 +5,7 @@
 - cd /usr/zabbix/
 - git clone 
 - cd /fast-zabbix-for-work
-По не обходимости настраиваем конфиги:
-- vim .env_..........................
-Запускаем docker-compose
+- vim .env_ - we make the necessary settings(if required)
 - docker-compose up -d
-Везде видим done.
-Проверем состояния контейнеров:
 - docker ps -a
+Zabbix will be available at: http://host_ip/zabbix

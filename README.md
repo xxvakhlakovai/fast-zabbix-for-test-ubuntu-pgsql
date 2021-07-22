@@ -3,7 +3,7 @@
 - sudo apt install git
 - mkdir /usr/zabbix/
 - cd /usr/zabbix/
-- git clone 
+- git clone https://github.com/xxvakhlakovai/fast-zabbix-for-work.git
 - cd /fast-zabbix-for-work
 - vim .env_ - we make the necessary settings(if required)
 - docker-compose up -d

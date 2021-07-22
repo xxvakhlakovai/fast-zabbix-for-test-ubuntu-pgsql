@@ -8,4 +8,4 @@
 - vim .env_ - we make the necessary settings(if required)
 - docker-compose up -d
 - docker ps -a
-Zabbix will be available at: http://host_ip/zabbix
+- Zabbix will be available at: http://host_ip/zabbix
